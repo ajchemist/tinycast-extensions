@@ -1,0 +1,46 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "almost-maximize-stage-manager",
+  "title": "Almost Maximize (Stage Manager)",
+  "description": "Maximize the focused window while keeping the Stage Manager strip visible.",
+  "icon": "icon.png",
+  "author": "ajchemist",
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "categories": [
+    "Productivity",
+    "System"
+  ],
+  "commands": [
+    {
+      "name": "almost-maximize-stage-manager",
+      "title": "Almost Maximize (Stage Manager)",
+      "subtitle": "Window Management",
+      "description": "Keep Almost Maximize's left inset and extend the top, right and bottom edges to the work area.",
+      "keywords": [
+        "window",
+        "maximize",
+        "fill",
+        "stage manager",
+        "stage",
+        "strip"
+      ],
+      "mode": "no-view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "packageManager": "bun@1.4.2"
+}
