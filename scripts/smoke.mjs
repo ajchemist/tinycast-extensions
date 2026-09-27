@@ -40,7 +40,8 @@ function textOf(value) {
 }
 
 class Session {
-  constructor(command, { stubs = {}, preferences = {} } = {}) {
+  /// `home` is what `os.homedir()` and `$HOME` report to the extension and the children it spawns.
+  constructor(command, { stubs = {}, preferences = {}, home } = {}) {
     this.command = manifest.commands.find((c) => c.name === command);
     if (!this.command) throw new Error(`no command ${command} in ${manifest.name}`);
     this.calls = [];
@@ -64,10 +65,13 @@ class Session {
     }
     this.harness = createHarness({ stubs: recorded });
     const file = join(builtDir, `${this.command.name}.js`);
+    const base = bootConfig();
+    const node = home ? { ...base.node, homedir: home, cwd: home, env: { ...base.node.env, HOME: home } } : base.node;
     this.harness.boot(
       bootConfig({
+        node,
         environment: {
-          ...bootConfig().environment,
+          ...base.environment,
           extensionName: manifest.name,
           commandName: this.command.name,
           commandMode: this.command.mode,

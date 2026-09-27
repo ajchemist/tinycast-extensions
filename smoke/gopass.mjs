@@ -11,7 +11,6 @@ const OTP_SECRET = "JBSWY3DPEHPK3PXP";
 const OTP_URL = `otpauth://totp/Example:alice?secret=${OTP_SECRET}&issuer=Example`;
 
 const home = mkdtempSync(join(tmpdir(), "gopass-smoke-"));
-process.env.HOME = home;
 process.on("exit", () => rmSync(home, { recursive: true, force: true }));
 
 const gopass = (args, input) =>
@@ -39,7 +38,7 @@ const expectedCodes = () => {
 
 export default function (t) {
   const launch = async () => {
-    const session = t.launch("index");
+    const session = t.launch("index", { home });
     await session.until(() => session.items().includes("solo"), "the root listing");
     return session;
   };
@@ -139,7 +138,7 @@ export default function (t) {
 
   t.test("keeps a password when deletion is declined", async () => {
     seed();
-    const session = t.launch("index", { stubs: { "feedback.confirmAlert": () => false } });
+    const session = t.launch("index", { home, stubs: { "feedback.confirmAlert": () => false } });
     await session.until(() => session.items().includes("solo"), "the root listing");
     await session.act("Delete Password", session.item("solo"));
     await session.until(() => session.called("feedback.confirmAlert").length, "the confirmation");
