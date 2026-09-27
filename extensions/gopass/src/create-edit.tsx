@@ -49,7 +49,7 @@ async function renderPassword(props: renderPasswordProps): Promise<string> {
     props.symbols,
     props.digits,
     props.capitalize,
-    props.numbers
+    props.numbers,
   );
   return passwords[Math.floor(Math.random() * passwords.length)].trimEnd();
 }
@@ -67,7 +67,7 @@ interface PasswordConfig {
   type: string;
 }
 
-export default function ({ inputPassword = undefined }: InputProps): JSX.Element {
+export default function ({ inputPassword = undefined }: InputProps) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [originalName, setOriginalName] = useState<string>("");
@@ -108,13 +108,13 @@ export default function ({ inputPassword = undefined }: InputProps): JSX.Element
           Number(config.length) > 0
             ? Number(config.length)
             : config.type === "xkcd"
-            ? xkcdPasswordLength
-            : randomPasswordLength,
+              ? xkcdPasswordLength
+              : randomPasswordLength,
         digits: config.digits,
         symbols: config.symbols,
         capitalize: config.capitalize,
         numbers: config.numbers,
-      })
+      }),
     );
   };
 
@@ -130,7 +130,8 @@ export default function ({ inputPassword = undefined }: InputProps): JSX.Element
 
   useEffect(() => {
     if (isLoading) {
-      inputPassword ? getInputPassword() : setNewPassword();
+      if (inputPassword) getInputPassword();
+      else setNewPassword();
     }
   }, [getInputPassword]);
 

@@ -49,7 +49,7 @@ async function pwgen(
   symbols: boolean,
   digits: boolean,
   capitalize: boolean,
-  numbers: boolean
+  numbers: boolean,
 ): Promise<string[]> {
   if (type === "xkcd") {
     return gopass([
@@ -62,7 +62,7 @@ async function pwgen(
     ]).then((data) => data.split(`\n`).slice(0, -1)); // last line is empty
   }
   return gopass(["pwgen", `--symbols=${symbols}`, `--no-numerals=${!digits}`, `${length}`]).then((data) =>
-    data.split(`\n`).slice(0, -1)
+    data.split(`\n`).slice(0, -1),
   ); // last line is empty
 }
 
@@ -79,7 +79,7 @@ async function exists(entry: string): Promise<boolean> {
   try {
     await gopass(["list", entry]);
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }

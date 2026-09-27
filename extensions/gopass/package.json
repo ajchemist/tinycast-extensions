@@ -30,14 +30,12 @@
     "otpauth": "^9.4.1"
   },
   "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
     "@types/node": "~16.10.0",
-    "@types/react": "^18.3.18",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "prettier": "^2.5.1",
-    "typescript": "^4.9.5"
+    "@types/react": "^19",
+    "eslint": "^9",
+    "prettier": "^3",
+    "typescript": "^5"
   },
   "scripts": {
     "build": "ray build -e dist",

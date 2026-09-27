@@ -38,7 +38,7 @@ async function paste(key: string, value: string): Promise<void> {
   await closeMainWindow();
 }
 
-export default function ({ entry }: { entry: string }): JSX.Element {
+export default function ({ entry }: { entry: string }) {
   const [details, setDetails] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [, setTimer] = useState(0);

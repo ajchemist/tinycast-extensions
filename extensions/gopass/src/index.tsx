@@ -9,6 +9,7 @@ import {
   showToast,
   Toast,
   confirmAlert,
+  Keyboard,
 } from "@raycast/api";
 import { useEffect, useState } from "react";
 import gopass from "./gopass";
@@ -155,13 +156,13 @@ const passwordActions = (entry: string) => (
       title="Copy OTP Code to Clipboard"
       icon={Icon.Clipboard}
       onAction={() => copyOTP(entry)}
-      shortcut={{ modifiers: ["cmd"], key: "o" }}
+      shortcut={Keyboard.Shortcut.Common.Open}
     />
     <Action
       title="Paste OTP Code to Active App"
       icon={Icon.Document}
       onAction={() => pasteOTP(entry)}
-      shortcut={{ modifiers: ["cmd", "shift"], key: "o" }}
+      shortcut={Keyboard.Shortcut.Common.OpenWith}
     />
     <Action.Push title="Edit Password" icon={Icon.EditShape} target={<CreateEditPassword inputPassword={entry} />} />
     <Action title="Delete Password" icon={Icon.DeleteDocument} onAction={() => removePassword(entry)} />
@@ -172,7 +173,7 @@ const getIcon = (entry: string) => (isDirectory(entry) ? Icon.Folder : Icon.Key)
 
 const getTarget = (entry: string) => (isDirectory(entry) ? <Main prefix={entry} /> : <Details entry={entry} />);
 
-export default function Main({ prefix = "" }): JSX.Element {
+export default function Main({ prefix = "" }) {
   const [entries, setEntries] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchText, setSearchText] = useState("");
@@ -181,7 +182,7 @@ export default function Main({ prefix = "" }): JSX.Element {
     gopass
       .list({ limit: searchText ? -1 : 0, prefix, directoriesFirst: true, stripPrefix: true })
       .then((data) =>
-        new Fuse(data, { useExtendedSearch: true, keys: ["item"] }).search(searchText).map((item) => item.item)
+        new Fuse(data, { useExtendedSearch: true, keys: ["item"] }).search(searchText).map((item) => item.item),
       )
       .then(setEntries)
       .catch(async (error) => {

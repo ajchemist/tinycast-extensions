@@ -13,7 +13,7 @@ export const sortDirectoriesFirst = (array: string[]) =>
 export const isValidUrl = (string: string) => {
   try {
     return /^http[s]?:/.test(new URL(string).protocol);
-  } catch (err) {
+  } catch {
     return false;
   }
 };
