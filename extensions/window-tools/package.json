@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "almost-maximize-stage-manager",
-  "title": "Almost Maximize (Stage Manager)",
-  "description": "Maximize the focused window while keeping the Stage Manager strip visible.",
+  "name": "window-tools",
+  "title": "Window Tools",
+  "description": "Personal window commands, such as maximizing while keeping the Stage Manager strip visible.",
   "icon": "icon.png",
   "author": "ajchemist",
   "license": "MIT",

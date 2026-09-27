@@ -8,7 +8,7 @@ Add it in Tinycast under Settings → Extensions → Registries with the URL
 
 | Extension | What it does |
 | --- | --- |
-| [`almost-maximize-stage-manager`](extensions/almost-maximize-stage-manager) | Maximize the focused window while keeping the Stage Manager strip visible |
+| [`window-tools`](extensions/window-tools) | Personal window commands — Almost Maximize (Stage Manager): maximize while keeping the Stage Manager strip visible |
 
 ## Working on an extension
 
