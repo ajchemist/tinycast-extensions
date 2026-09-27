@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Daily, after Tinycast Personal's nightly, so a runtime change that breaks an extension shows up.
+  schedule:
+    - cron: "30 19 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      extensions: ${{ steps.list.outputs.extensions }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: list
+        run: |
+          echo "extensions=$(find extensions -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
+
+  check:
+    needs: discover
+    name: ${{ matrix.extension }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        extension: ${{ fromJSON(needs.discover.outputs.extensions) }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Only the runtime and its harness: the harness needs Node built-ins and nothing installed.
+      - uses: actions/checkout@v7
+        with:
+          repository: ajchemist/tinycast
+          ref: personal
+          path: tinycast
+          sparse-checkout: |
+            Scripts/raycast-runtime
+            Tinycast/Resources/RaycastRuntime.generated.js
+          sparse-checkout-cone-mode: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: extensions/${{ matrix.extension }}/package.json
+
+      # `ray` itself runs on Node.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Check
+        env:
+          TINYCAST_RUNTIME: tinycast/Scripts/raycast-runtime
+          OUT_DIR: ${{ runner.temp }}/build
+        run: scripts/check.sh "extensions/${{ matrix.extension }}"

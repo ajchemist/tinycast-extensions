@@ -35,8 +35,7 @@ export default async function Command() {
   }
   const desktops: Desktop[] = await WindowManagement.getDesktops();
   const desktop =
-    desktops.find((candidate) => candidate.id === window.desktopId) ??
-    desktops.find((candidate) => candidate.active);
+    desktops.find((candidate) => candidate.id === window.desktopId) ?? desktops.find((candidate) => candidate.active);
   if (!desktop) {
     await showHUD("No display found for the window");
     return;
