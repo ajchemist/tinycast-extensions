@@ -29,7 +29,27 @@ daily after Tinycast Personal's nightly build:
 3. `ray lint` — manifest, icons, ESLint and Prettier
 4. `bun test`, when the extension has `*.test.ts`
 5. `ray build -e dist`, exactly what Tinycast's registry install runs
-6. each built command, run in Tinycast's own JS runtime from `ajchemist/tinycast@personal`
+6. in Tinycast's own JS runtime from `ajchemist/tinycast@personal`: the scenarios in
+   `smoke/<name>.mjs` when there are any, otherwise each command is launched once
+
+## Smoke scenarios
+
+`scripts/smoke.mjs` runs a built extension the way the palette does — it reads the rendered tree,
+types into the search bar, runs actions, fills and submits forms, and records host calls such as
+clipboard writes and `setWindowBounds`. A scenario file default-exports `async (t) => { … }`:
+
+```js
+t.test("pastes an entry's password", async () => {
+  const session = t.launch("index");
+  await session.until(() => session.items().includes("solo"), "the listing");
+  await session.act("Paste Password to Active App", session.item("solo"));
+  t.assert.deepEqual(session.clipboard("clipboard.paste"), ["solo-secret"]);
+});
+```
+
+`smoke/<name>.ci-setup.sh`, when present, prepares the CI runner first — `gopass` installs the
+gopass CLI. The gopass scenarios run it against a throwaway store under a temporary `HOME`, with the
+unencrypted `plain` backend, so they never touch a real password store.
 
 Run the same locally:
 

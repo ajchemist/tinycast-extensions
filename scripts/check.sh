@@ -4,6 +4,7 @@
 # built commands in Tinycast's own JS runtime.
 set -euo pipefail
 
+root=$(cd "$(dirname "$0")/.." && pwd)
 dir=$(cd "$1" && pwd)
 name=$(basename "$dir")
 out="${OUT_DIR:-$(mktemp -d)}/$name"
@@ -40,7 +41,11 @@ rm -rf "$out"
 node_modules/.bin/ray build -e dist -o "$out"
 end
 
-if [ -n "$runtime" ]; then
+if [ -n "$runtime" ] && [ -f "$root/smoke/$name.mjs" ]; then
+  step "tinycast runtime · smoke scenarios"
+  (cd "$root" && TINYCAST_RUNTIME="$runtime" bun scripts/smoke.mjs "$name" "$out")
+  end
+elif [ -n "$runtime" ]; then
   for command in $(bun -e 'console.log(require("./package.json").commands.map((c) => c.name).join("\n"))'); do
     step "tinycast runtime · $command"
     bun "$runtime/test.mjs" "$out" "$command"

@@ -58,6 +58,12 @@ jobs:
         with:
           node-version: 22
 
+      - name: Prepare smoke scenarios
+        if: hashFiles(format('smoke/{0}.ci-setup.sh', matrix.extension)) != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: smoke/${{ matrix.extension }}.ci-setup.sh
+
       - name: Check
         env:
           TINYCAST_RUNTIME: tinycast/Scripts/raycast-runtime
