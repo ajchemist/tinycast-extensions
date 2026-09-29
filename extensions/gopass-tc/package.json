@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "gopass",
+  "name": "gopass-tc",
   "title": "Gopass",
   "description": "Search and copy passwords from gopass password manager",
   "categories": [

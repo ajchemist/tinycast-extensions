@@ -29,7 +29,7 @@ function seed() {
 }
 
 // The extension's own otpauth, so the expected code comes from an independent call, not the bundle.
-const OTPAuth = createRequire(resolve("extensions/gopass/package.json"))("otpauth");
+const OTPAuth = createRequire(resolve("extensions/gopass-tc/package.json"))("otpauth");
 const expectedCodes = () => {
   const totp = OTPAuth.URI.parse(OTP_URL);
   const now = Date.now();

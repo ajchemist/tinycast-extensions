@@ -8,7 +8,7 @@ Add it in Tinycast under Settings → Extensions → Registries with the URL
 
 | Extension | What it does |
 | --- | --- |
-| [`gopass`](extensions/gopass) | Raycast's gopass extension, plus `otpauth://` OTP generation with live countdown rings |
+| [`gopass-tc`](extensions/gopass-tc) | Raycast's gopass extension, plus `otpauth://` OTP generation with live countdown rings |
 | [`window-tools`](extensions/window-tools) | Personal window commands — Almost Maximize (Stage Manager): maximize while keeping the Stage Manager strip visible |
 
 ## Working on an extension
@@ -47,8 +47,8 @@ t.test("pastes an entry's password", async () => {
 });
 ```
 
-`smoke/<name>.ci-setup.sh`, when present, prepares the CI runner first — `gopass` installs the
-gopass CLI. The gopass scenarios run it against a throwaway store under a temporary `HOME`, with the
+`smoke/<name>.ci-setup.sh`, when present, prepares the CI runner first — `gopass-tc` installs the
+gopass CLI. The gopass-tc scenarios run it against a throwaway store under a temporary `HOME`, with the
 unencrypted `plain` backend, so they never touch a real password store.
 
 Run the same locally:
